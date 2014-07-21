@@ -33,7 +33,9 @@ class Contest < ActiveRecord::Base
 	# Resets the contest by passing the users provided tags (if any)
 	def self.reset_contest(api_key, params)
 		http_lib_object = MPC::ImageLibrary.new(api_key)
-		http_lib_object.post_reset(params[:tags])
+		api_response = JSON.parse( http_lib_object.post_reset(params[:tags]) )
+
+		return api_response
 	end
 
 end

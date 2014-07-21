@@ -20,7 +20,10 @@ class ContestsController < ApplicationController
 
 	# GET    /contests/reset_contest(.:format)
 	def reset_contest
-		Contest::reset_contest(cookies[:key], params)
+		api_response = Contest::reset_contest(cookies[:key], params)
+		if(api_response["status"] == "FAIL")
+			flash[:alert] = api_response["message"]
+		end
 
 		redirect_to contests_path
 	end
