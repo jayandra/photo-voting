@@ -15,4 +15,4 @@
 /log/*.log
 /tmp
 
-/config/initializers/app_constants.rb
+#/config/initializers/app_constants.rb
