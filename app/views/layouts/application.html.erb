@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PhotoVoting</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div role="navigation" class="navbar navbar-inverse navbar-fixed-top1">
+    <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Photo Voting</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 center-text">
+      <% flash.each do |name, msg| %>
+        <% if ["notice", "alert", "error"].include? name %>
+          <%= content_tag :div, :class => "center-text alert #{name == 'success' ? "alert-success" : "alert-danger" }" do %>
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <%= msg %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  
+  <%= yield %>
+  
+  <hr>
+  <footer>
+    <p>&copy; MPC 2014</p>
+  </footer>
+</div>
+
+</body>
+</html>

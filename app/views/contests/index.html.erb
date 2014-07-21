@@ -1,0 +1,78 @@
+<div class="row">
+	<div class="col-md-4"></div>
+	<div class="col-md-4 center-text">
+		<% if @current_round["count"] == 1 %>
+			<h3>Winner Image !!!</h3>
+		<% else %>
+			<h3>Current Round : <%= @current_round["round"] %></h3>
+		<% end %>
+	</div>
+
+</div>
+
+<div class="row">
+	<% if @current_round["count"] == 1 %>
+		<div class="col-md-12 center-text">
+			<%= image_tag @current_round["images"][0]["url"], class: "carousel_image" %>
+		</div>
+
+		<div class="col-md-12 center-text">
+			<%= content_tag(:div, "Reset", {:class => "btn btn-danger", "data-target".to_sym => "#reset_tags", "data-toggle".to_sym => "modal"}) %>
+		</div>
+	<% else %>
+		<%= form_tag update_contest_contests_path, method: "post" do %>
+			<% (@current_round["count"]/2).times do |count| %>
+				<div class="col-md-6">
+					<%= content_tag(
+							:label, 
+							content_tag(:image, nil, src: @current_round["images"][count*2]["url"], class: "carousel_image"), 
+							for: count*2, class: "right" 
+					)%>
+					<%= content_tag(
+							:div,
+							content_tag(:input, nil, 
+													type:"radio", 
+													id:count*2,
+													name:"chosen[#{count*2}]",
+													value:"#{@current_round["images"][count*2]["flickr_id"]}"),
+							class: "col-md-5 right"
+					)%>
+				</div>
+				<div class="col-md-6">
+					<%= content_tag(
+							:label, 
+							content_tag(:image, nil, src: @current_round["images"][count*2+1]["url"], class: "carousel_image"), 
+							for: count*2+1
+					)%>
+					<%= content_tag(
+							:div,
+							content_tag(:input, nil, 
+													type:"radio", 
+													id:count*2+1,
+													name:"chosen[#{count*2}]",
+													value:"#{@current_round["images"][count*2+1]["flickr_id"]}"),
+							class: "col-md-8 right"
+					)%>
+				</div>
+			<% end %>
+			<div class="col-md-12 center-text">
+				<%= submit_tag "Submit", class: "btn btn-default"  %>
+				<%= content_tag(:div, "Reset", {:class => "btn btn-danger", "data-target".to_sym => "#reset_tags", "data-toggle".to_sym => "modal"}) %>
+			</div>
+		<% end %>
+	<% end %>
+</div>
+
+<div id="reset_tags" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+  	<div class="modal-content row">
+			<%= form_tag reset_contest_contests_path, method: "get", id: "reset_tags" do %>
+				<%= label_tag 'Tags', "Please enter any tags of choice" %>
+				<%= text_field_tag 'tags', nil, placeholder: 'tag1, tag2, ...', size: 30 %>
+				<div class="center-text">
+					<%= submit_tag "Reset", class: "btn btn-danger"  %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
