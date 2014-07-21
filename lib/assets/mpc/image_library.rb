@@ -54,7 +54,7 @@ module MPC
 
     # contest Initialization
     def post_reset(tags = nil)
-      response = HTTParty.post("#{BASE_URL}/contest/#{@api_key}/reset", :tags => tags)
+      response = HTTParty.post("#{BASE_URL}/contest/#{@api_key}/reset", query: {tags: tags} )
     end
 
     # contest Finalization
